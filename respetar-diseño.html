@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Danna & Daniel · 10 de octubre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg: #f5f1e2;
+  --bg-soft: #efe9d6;
+  --ink: #35302a;
+  --ink-soft: #5a544a;
+  --accent: #5f8fa0;
+  --accent-soft: #9dc0cc;
+  --seal-1: #8a6a4c;
+  --seal-2: #5f4630;
+  --line: #35302a;
+  --max: 480px;
+  --script: 'Alex Brush', cursive;
+  --hand: 'Caveat', cursive;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--hand);
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden; height:100vh;}
+
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
+a{color:inherit; text-decoration:none;}
+input,textarea{font-family:inherit;}
+
+/* paper texture applied everywhere via svg filter, see #paper */
+.paper{
+  position:relative;
+  background-color:var(--bg);
+}
+.paper::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.2  0 0 0 0 0.18  0 0 0 0 0.14  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.55;
+  pointer-events:none;
+  mix-blend-mode:multiply;
+}
+
+section{position:relative;}
+
+.wrap{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:0 28px;
+  position:relative;
+}
+
+/* rough/hand-drawn filter for borders */
+svg.defs{position:absolute;width:0;height:0;overflow:hidden;}
+
+.script{font-family:var(--script); font-weight:400; color:var(--accent); line-height:1.25;}
+.hand{font-family:var(--hand);}
+
+h1,h2,h3,p{margin:0;}
+
+/* ============ REVEAL ANIMATION ============ */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+.reveal.d1{transition-delay:.08s;}
+.reveal.d2{transition-delay:.16s;}
+.reveal.d3{transition-delay:.24s;}
+.reveal.d4{transition-delay:.32s;}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  .reveal{opacity:1; transform:none; transition:none;}
+}
+
+/* ============ LEAF SHADOW DECOR ============ */
+.leaf-decor{
+  position:absolute;
+  pointer-events:none;
+  opacity:.35;
+  z-index:0;
+  filter:blur(.3px);
+}
+.leaf-decor svg{width:100%;height:100%;display:block;}
+
+/* ============ ENVELOPE INTRO ============ */
+#envelope{
+  position:fixed; inset:0;
+  z-index:1000;
+  background:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity .9s ease, transform .9s ease;
+}
+#envelope.opened{
+  opacity:0;
+  transform:translateY(-4%) scale(1.01);
+  pointer-events:none;
+}
+#envelope .flap-lines{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+}
+#envelope .flap-lines svg{width:100%;height:100%;display:block;}
+#envelope .flap-lines path{
+  stroke:var(--ink);
+  stroke-opacity:.16;
+  stroke-width:1.4;
+  fill:none;
+}
+.seal-btn{
+  position:relative;
+  z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:18px;
+  background:none; border:none;
+}
+.seal{
+  width:130px; height:130px;
+  border-radius:50%;
+  position:relative;
+  background:
+    radial-gradient(circle at 32% 28%, var(--seal-1), var(--seal-2) 70%);
+  box-shadow: inset 0 3px 6px rgba(255,255,255,.25), inset 0 -6px 10px rgba(0,0,0,.4), 0 6px 14px rgba(0,0,0,.25);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .55s cubic-bezier(.34,1.56,.64,1), opacity .5s ease;
+}
+.seal::before{
+  content:"";
+  position:absolute; inset:6px;
+  border-radius:50%;
+  border:1px dashed rgba(255,255,255,.25);
+}
+.seal .seal-text{
+  text-align:center;
+  color:#e9dcc8;
+  font-family:var(--script);
+  line-height:1.05;
+}
+.seal .seal-text .amp{font-size:.8em; display:block; margin:1px 0;}
+.seal .seal-text small{
+  display:block;
+  font-family:var(--hand);
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-top:4px;
+  color:#e9dcc8;
+  opacity:.85;
+}
+#envelope.opening .seal{transform:scale(1.18) rotate(-6deg); opacity:0;}
+.tap-hint{
+  font-family:var(--hand);
+  color:var(--ink-soft);
+  font-size:15px;
+  letter-spacing:1px;
+  animation:pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.45;}50%{opacity:1;}}
+
+/* ============ HEADER ============ */
+header#topbar{
+  position:sticky; top:0; z-index:100;
+  background:rgba(245,241,226,.92);
+  backdrop-filter:blur(4px);
+  border-bottom:1px solid rgba(53,48,42,.1);
+}
+header#topbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:14px; padding-bottom:14px;
+}
+.brand{font-family:var(--script); color:var(--accent); font-size:22px;}
+.burger{
+  width:26px; height:20px; position:relative;
+}
+.burger span{
+  position:absolute; left:0; right:0; height:2px; background:var(--ink); border-radius:2px;
+  transition:transform .3s ease, opacity .3s ease, top .3s ease;
+}
+.burger span:nth-child(1){top:0;}
+.burger span:nth-child(2){top:9px;}
+.burger span:nth-child(3){top:18px;}
+.burger.open span:nth-child(1){top:9px; transform:rotate(45deg);}
+.burger.open span:nth-child(2){opacity:0;}
+.burger.open span:nth-child(3){top:9px; transform:rotate(-45deg);}
+
+#navmenu{
+  position:fixed; inset:0 0 0 auto; top:0; height:100vh; width:78%; max-width:320px;
+  background:var(--bg-soft);
+  z-index:99;
+  transform:translateX(100%);
+  transition:transform .45s cubic-bezier(.65,0,.35,1);
+  box-shadow:-8px 0 30px rgba(0,0,0,.08);
+  padding:90px 34px;
+}
+#navmenu.open{transform:translateX(0);}
+#navmenu ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:26px;}
+#navmenu a{font-family:var(--script); font-size:26px; color:var(--ink);}
+#navmenu a:hover, #navmenu a:focus-visible{color:var(--accent);}
+#scrim{
+  position:fixed; inset:0; background:rgba(53,48,42,.28); z-index:98;
+  opacity:0; pointer-events:none; transition:opacity .4s ease;
+}
+#scrim.show{opacity:1; pointer-events:auto;}
+
+/* ============ HERO ============ */
+#inicio{padding:56px 0 40px;}
+.eyebrow{
+  text-align:center; font-size:19px; line-height:1.5; color:var(--ink);
+  padding:0 8px;
+}
+.names{
+  margin-top:34px;
+  font-family:var(--script);
+  font-size:20vw;
+  line-height:.95;
+}
+@media(min-width:480px){.names{font-size:92px;}}
+.names .n1{color:var(--ink); text-align:left;}
+.names .amp{color:var(--ink); font-size:.55em; text-align:center; margin:2px 0;}
+.names .n2{color:var(--ink); text-align:right;}
+
+.couple-illust{margin:22px auto 6px; width:78%; max-width:280px;}
+
+.date-line{text-align:center; font-family:var(--script); color:var(--accent); font-size:34px; margin-top:6px;}
+.place-line{text-align:center; font-size:20px; color:var(--ink); margin-top:2px;}
+
+.countdown{
+  display:flex; justify-content:center; gap:16px; margin-top:34px;
+}
+.countdown .cell{text-align:center; min-width:52px;}
+.countdown .num{font-family:var(--hand); font-weight:700; font-size:34px; line-height:1;}
+.countdown .lbl{font-size:14px; color:var(--ink-soft); margin-top:4px;}
+.countdown .colon{font-family:var(--hand); font-weight:700; font-size:30px; padding-top:2px; color:var(--ink-soft);}
+
+.transition-line{
+  text-align:center; font-family:var(--script); color:var(--accent); font-size:26px;
+  margin-top:56px; padding:0 10px;
+}
+
+/* ============ PADRES ============ */
+#padres{padding:60px 0 40px;}
+.section-title{
+  text-align:center; font-family:var(--script); color:var(--accent); font-size:28px; margin-bottom:28px;
+}
+.people-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:18px 10px;
+  text-align:center; font-size:19px;
+}
+.padrinos{margin-top:46px;}
+
+.cta-line{
+  text-align:center; font-family:var(--script); color:var(--accent); font-size:27px;
+  margin:56px 0 30px; padding:0 6px;
+}
+
+/* ============ FLIP CARDS ============ */
+.cards{display:flex; flex-direction:column; gap:46px; padding-bottom:10px;}
+.flip-card{
+  perspective:1400px;
+  width:100%; max-width:300px; margin:0 auto;
+  min-height:390px;
+}
+.flip-inner{
+  position:relative; width:100%; height:100%; min-height:390px;
+  transform-style:preserve-3d;
+  transition:transform .8s cubic-bezier(.65,0,.35,1);
+}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{
+  position:absolute; inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:34px 22px 26px;
+}
+.flip-face.back{transform:rotateY(180deg);}
+
+.frame-border{
+  position:absolute; inset:0;
+  border:2px solid var(--ink);
+  border-radius:52% 48% 51% 49% / 8% 8% 8% 8%;
+  filter:url(#rough);
+}
+.frame--vine .frame-border{border-radius:12% 12% 12% 12% / 6% 6% 6% 6%;}
+
+.ribbon{position:absolute; top:-26px; left:50%; transform:translateX(-50%); width:88px;}
+.ribbon.bottom{top:auto; bottom:-26px; transform:translateX(-50%) rotate(180deg);}
+.vine-corner{position:absolute; width:46px; opacity:.9;}
+.vine-corner.tl{top:-14px; left:-8px;}
+.vine-corner.tr{top:-14px; right:-8px; transform:scaleX(-1);}
+.vine-corner.bl{bottom:-14px; left:-8px; transform:scaleY(-1);}
+.vine-corner.br{bottom:-14px; right:-8px; transform:scale(-1,-1);}
+
+.card-icon{width:86px; height:86px; margin-bottom:10px;}
+.card-label{font-family:var(--script); color:var(--accent); font-size:26px; margin-top:2px;}
+.card-sub{font-family:var(--script); color:var(--accent); font-size:19px; line-height:1.3; margin-bottom:10px;}
+.card-text{font-size:18px; line-height:1.45;}
+.card-time{font-family:var(--script); color:var(--accent); font-size:20px; margin-top:6px;}
+
+.btn{
+  position:relative;
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 30px;
+  font-size:17px;
+  color:var(--ink);
+  min-width:110px;
+}
+.btn .btn-border{
+  position:absolute; inset:0;
+  border:1.6px solid var(--ink);
+  border-radius:22px;
+  filter:url(#rough2);
+}
+.btn span.label{position:relative;}
+.btn.small{padding:8px 24px; font-size:15px;}
+.btn:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+.card-cta{margin-top:16px;}
+
+/* ============ DRESS CODE ============ */
+#dresscode{padding:60px 0;}
+.dc-flex{display:flex; align-items:center; gap:18px;}
+.dc-illust{width:44%; max-width:170px;}
+.dc-text{flex:1;}
+.dc-text .script{font-size:27px;}
+.dc-text .sub{font-size:19px; margin-top:4px;}
+
+/* ============ TIMELINE ============ */
+#itinerario{padding:50px 0 60px;}
+.timeline{position:relative; margin-top:38px; padding-left:6px;}
+.timeline .rail{
+  position:absolute; left:44px; top:8px; bottom:8px; width:2px;
+  background:var(--accent-soft);
+}
+.tl-item{position:relative; display:flex; align-items:center; gap:20px; padding:22px 0;}
+.tl-icon{width:44px; height:44px; flex:none; display:flex; align-items:center; justify-content:center;}
+.tl-icon svg{width:100%; height:100%;}
+.tl-dot{
+  position:absolute; left:44px; top:50%; transform:translate(-50%,-50%);
+  width:9px; height:9px; border-radius:50%; background:var(--ink);
+}
+.tl-text{padding-left:14px;}
+.tl-time{font-family:var(--script); color:var(--accent); font-size:21px;}
+.tl-label{font-size:18px; margin-top:1px;}
+
+/* ============ GALLERY of memory photos near dress code / gift not applicable ============ */
+
+/* ============ GIFT ============ */
+#regalo{padding:20px 0 60px;}
+
+/* ============ ASISTENCIA ============ */
+#asistencia{padding:40px 0 60px; text-align:center;}
+#asistencia p.info{font-size:19px; line-height:1.5; margin-top:18px;}
+#asistencia .btn{margin-top:30px;}
+
+.rsvp-form{
+  max-height:0; overflow:hidden; opacity:0;
+  transition:max-height .6s ease, opacity .6s ease, margin .6s ease;
+  text-align:left; margin-top:0;
+}
+.rsvp-form.open{max-height:900px; opacity:1; margin-top:34px;}
+.field{margin-bottom:26px;}
+.field label{display:block; text-align:center; font-size:19px; margin-bottom:10px;}
+.field input[type=text], .field textarea{
+  width:100%; border:1.6px solid var(--ink); border-radius:6px;
+  background:transparent; padding:12px 14px; font-size:17px; color:var(--ink);
+}
+.field textarea{min-height:110px; resize:vertical;}
+.radios{display:flex; flex-direction:column; gap:14px; align-items:center;}
+.radio-opt{display:flex; align-items:center; gap:10px; font-size:18px;}
+.radio-opt input{width:18px; height:18px; accent-color:var(--accent);}
+.rsvp-thanks{display:none; text-align:center; font-family:var(--script); color:var(--accent); font-size:24px; margin-top:20px; line-height:1.4;}
+.rsvp-thanks.show{display:block;}
+
+/* ============ GALLERY ============ */
+#galeria{padding:10px 0 60px; text-align:center;}
+.polaroids{position:relative; height:260px; margin:0 auto 30px; max-width:320px;}
+.polaroid{
+  position:absolute; background:#fff; padding:10px 10px 34px; box-shadow:0 10px 18px rgba(0,0,0,.15);
+  width:130px; height:150px;
+}
+.polaroid .ph{width:100%; height:100%; background:linear-gradient(135deg,#e4dfc9,#cfc9ac); display:flex; align-items:center; justify-content:center;}
+.polaroid .ph svg{width:34%; opacity:.55;}
+.polaroid.p1{left:0; top:30px; transform:rotate(-9deg); z-index:1;}
+.polaroid.p2{left:95px; top:0; transform:rotate(4deg); z-index:2;}
+.polaroid.p3{left:190px; top:36px; transform:rotate(11deg); z-index:1;}
+
+.gal-note{font-size:18px; line-height:1.5;}
+
+/* ============ FOOTER ============ */
+#final{padding:30px 0 20px; text-align:center;}
+.glasses{width:74px; margin:0 auto 22px;}
+.quote{font-size:19px; line-height:1.55; padding:0 6px;}
+.finalnames{font-family:var(--script); color:var(--accent); font-size:30px; margin-top:26px; line-height:1.35;}
+.finalnames .amp{font-size:.7em; display:block;}
+
+footer{padding:34px 0 44px; text-align:center;}
+footer p{font-size:13px; color:var(--ink-soft); letter-spacing:.4px;}
+footer p.credit{margin-bottom:4px;}
+
+/* ============ MUSIC TOGGLE ============ */
+#musicToggle{
+  position:fixed; right:18px; bottom:18px; z-index:80;
+  width:50px; height:50px; border-radius:50%;
+  background:var(--ink); color:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 14px rgba(0,0,0,.25);
+}
+#musicToggle svg{width:22px; height:22px;}
+#musicToggle.playing svg{animation:spin 3.5s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body class="locked">
+
+<svg class="defs">
+  <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+  </filter>
+  <filter id="rough2" x="-30%" y="-60%" width="160%" height="220%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="4" result="n2"/>
+    <feDisplacementMap in="SourceGraphic" in2="n2" scale="3.2"/>
+  </filter>
+</svg>
+
+<!-- ============ ENVELOPE INTRO ============ -->
+<div id="envelope" class="paper">
+  <div class="flap-lines">
+    <svg viewBox="0 0 400 800" preserveAspectRatio="none">
+      <path d="M0,0 L200,360 L400,0"/>
+      <path d="M0,800 L200,440 L400,800"/>
+    </svg>
+  </div>
+  <button class="seal-btn" id="sealBtn" aria-label="Abrir invitación">
+    <span class="seal">
+      <span class="seal-text">Danna<span class="amp">&amp;</span>Daniel<small>Abrir</small></span>
+    </span>
+    <span class="tap-hint">Toca para abrir</span>
+  </button>
+</div>
+
+<!-- ============ HEADER / NAV ============ -->
+<header id="topbar">
+  <div class="wrap">
+    <span class="brand">Danna &amp; Daniel</span>
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div id="scrim"></div>
+<nav id="navmenu" aria-hidden="true">
+  <ul>
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#padres">Padres y padrinos</a></li>
+    <li><a href="#ceremonia">Ceremonia</a></li>
+    <li><a href="#itinerario">Itinerario</a></li>
+    <li><a href="#regalo">Regalos</a></li>
+    <li><a href="#asistencia">Asistencia</a></li>
+    <li><a href="#galeria">Galería</a></li>
+  </ul>
+</nav>
+
+<main class="paper">
+
+  <!-- ============ HERO ============ -->
+  <section id="inicio">
+    <div class="wrap">
+      <p class="eyebrow hand reveal">Nos une el amor y las ganas de<br>celebrarlo con los que más queremos.</p>
+
+      <div class="names">
+        <div class="n1 reveal">Danna</div>
+        <div class="amp reveal d1">&amp;</div>
+        <div class="n2 reveal d2">Daniel</div>
+      </div>
+
+      <div class="couple-illust reveal d2">
+        <svg viewBox="0 0 300 260" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <!-- groom -->
+          <circle cx="100" cy="55" r="20"/>
+          <path d="M88 46c4-6 20-6 24 0"/>
+          <path d="M100 75v55"/>
+          <path d="M100 85l-36-30"/>
+          <path d="M64 55c-4-6-2-14 4-16"/>
+          <path d="M100 92l40-22"/>
+          <path d="M140 70c6-3 10-10 8-16"/>
+          <path d="M100 130l-24 60"/>
+          <path d="M100 130l14 62"/>
+          <path d="M76 190l-10 8"/>
+          <path d="M114 192l10 10"/>
+          <!-- bride -->
+          <circle cx="205" cy="55" r="20"/>
+          <path d="M188 44c10-14 30-12 34 4"/>
+          <path d="M223 50c6 6 6 16 0 22"/>
+          <path d="M205 75c-26 14-30 60-16 96 18 8 42 6 58-2 10-34 2-78-22-92z"/>
+          <path d="M205 92l-42-24"/>
+          <path d="M163 68c-6-2-12-10-10-18"/>
+          <path d="M205 92l36-18"/>
+          <path d="M241 74c8 6 20 4 26-4"/>
+          <path d="M188 170l-14 24"/>
+          <path d="M228 172l16 22"/>
+        </svg>
+      </div>
+
+      <p class="date-line script reveal d1">10 de octubre 2026</p>
+      <p class="place-line hand reveal d2">Cuernavaca, Morelos.</p>
+
+      <div class="countdown reveal d3" id="countdown">
+        <div class="cell"><div class="num" id="cd-days">00</div><div class="lbl">Días</div></div>
+        <div class="colon">:</div>
+        <div class="cell"><div class="num" id="cd-hours">00</div><div class="lbl">Horas</div></div>
+        <div class="colon">:</div>
+        <div class="cell"><div class="num" id="cd-mins">00</div><div class="lbl">Minutos</div></div>
+        <div class="colon">:</div>
+        <div class="cell"><div class="num" id="cd-secs">00</div><div class="lbl">Segundos</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PADRES / PADRINOS ============ -->
+  <section id="padres">
+    <div class="leaf-decor" style="top:0; right:-40px; width:220px; height:340px;">
+      <svg viewBox="0 0 200 320"><path d="M180 0C140 40 120 90 130 150c-30-10-60 0-80 30 40 10 60 40 60 80 30-20 40-60 30-100 30 0 55-20 65-50-30 0-55-15-65-40 20-10 35-30 40-50z" fill="var(--ink)" opacity=".5"/></svg>
+    </div>
+    <div class="wrap" style="position:relative; z-index:1;">
+      <h2 class="section-title reveal">En compañía de nuestros padres</h2>
+      <div class="people-grid hand">
+        <div class="reveal">Melisa Chávez</div>
+        <div class="reveal d1">Priscila Pórtela</div>
+        <div class="reveal d1">Luis Enrique Olivas</div>
+        <div class="reveal d2">Eduardo Moreira</div>
+      </div>
+
+      <div class="padrinos">
+        <h2 class="section-title reveal">Padrinos</h2>
+        <div class="people-grid hand" style="grid-template-columns:1fr;">
+          <div class="reveal">José Luis Vargas</div>
+          <div class="reveal d1">Martha Téllez</div>
+        </div>
+      </div>
+
+      <p class="cta-line reveal">¿Nos acompañas en este gran día?</p>
+    </div>
+  </section>
+
+  <!-- ============ CEREMONIA / RECEPCION ============ -->
+  <section id="ceremonia">
+    <div class="wrap">
+      <div class="cards">
+
+        <!-- Ceremonia card -->
+        <div class="flip-card reveal" data-card>
+          <div class="flip-inner">
+            <div class="flip-face front">
+              <div class="frame-border"></div>
+              <svg class="ribbon" viewBox="0 0 88 50" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M44 22c-10-18-34-18-38-2 4 10 22 10 30 4"/>
+                <path d="M44 22c10-18 34-18 38-2-4 10-22 10-30 4"/>
+                <circle cx="44" cy="20" r="4" fill="var(--ink)"/>
+                <path d="M40 24l-8 22"/>
+                <path d="M48 24l8 22"/>
+              </svg>
+              <svg class="card-icon" viewBox="0 0 100 100" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="40" cy="55" r="24"/>
+                <circle cx="62" cy="48" r="24"/>
+                <path d="M55 24l3 8-8 2"/>
+              </svg>
+              <p class="card-label">Ceremonia</p>
+              <div class="card-cta">
+                <button class="btn flip-trigger"><span class="btn-border"></span><span class="label">Ver</span></button>
+              </div>
+            </div>
+            <div class="flip-face back">
+              <div class="frame-border"></div>
+              <svg class="ribbon" viewBox="0 0 88 50" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M44 22c-10-18-34-18-38-2 4 10 22 10 30 4"/>
+                <path d="M44 22c10-18 34-18 38-2-4 10-22 10-30 4"/>
+                <circle cx="44" cy="20" r="4" fill="var(--ink)"/>
+                <path d="M40 24l-8 22"/>
+                <path d="M48 24l8 22"/>
+              </svg>
+              <p class="card-sub script">Parroquia<br>San Nicolás de Tolentino</p>
+              <p class="card-text">José María Morelos 25, Ahuatepec,<br>62300 Cuernavaca, Mor.</p>
+              <p class="card-time script">5:00 pm</p>
+              <div class="card-cta">
+                <a class="btn small" href="https://maps.google.com/?q=Parroquia+San+Nicolas+de+Tolentino+Cuernavaca" target="_blank" rel="noopener"><span class="btn-border"></span><span class="label">Ver mapa</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recepcion card -->
+        <div class="flip-card reveal" data-card>
+          <div class="flip-inner">
+            <div class="flip-face front frame--vine">
+              <div class="frame-border"></div>
+              <svg class="card-icon" viewBox="0 0 100 100" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M30 30l10 20v20"/>
+                <path d="M20 30h20l-3 8h-14z"/>
+                <path d="M70 26l-8 22v22"/>
+                <path d="M60 24c0 8 6 12 10 12s10-4 10-12"/>
+                <path d="M22 78h16"/>
+                <path d="M62 78h16"/>
+              </svg>
+              <p class="card-label">Recepción</p>
+              <div class="card-cta">
+                <button class="btn flip-trigger"><span class="btn-border"></span><span class="label">Ver</span></button>
+              </div>
+            </div>
+            <div class="flip-face back frame--vine">
+              <div class="frame-border"></div>
+              <p class="card-sub script">Hacienda de Oriente</p>
+              <p class="card-text">Prolongación Matamoros 3950<br>Camino al Volantil, 48900,<br>Autlán De Navarro, Jalisco</p>
+              <p class="card-time script">6:30 pm</p>
+              <div class="card-cta">
+                <a class="btn small" href="https://maps.google.com/?q=Hacienda+de+Oriente+Autlan+de+Navarro" target="_blank" rel="noopener"><span class="btn-border"></span><span class="label">Ver mapa</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DRESS CODE ============ -->
+  <section id="dresscode">
+    <div class="leaf-decor" style="top:-20px; left:-60px; width:220px; height:340px;">
+      <svg viewBox="0 0 200 320"><path d="M20 0C60 40 80 90 70 150c30-10 60 0 80 30-40 10-60 40-60 80-30-20-40-60-30-100-30 0-55-20-65-50 30 0 55-15 65-40-20-10-35-30-40-50z" fill="var(--ink)" opacity=".5"/></svg>
+    </div>
+    <div class="wrap" style="position:relative; z-index:1;">
+      <div class="dc-flex">
+        <div class="dc-illust reveal">
+          <svg viewBox="0 0 200 220" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="55" cy="30" r="16"/>
+            <path d="M55 46v46"/>
+            <path d="M55 55l-30-12"/>
+            <path d="M25 43c-6 6-6 14 0 20"/>
+            <path d="M55 60l34 6"/>
+            <path d="M89 66l14-10"/>
+            <path d="M55 92l-22 46"/>
+            <path d="M55 92l24 44"/>
+            <circle cx="140" cy="26" r="16"/>
+            <path d="M140 42c-18 8-24 40-12 66 14 6 30 4 40-2 8-22 2-52-16-64z"/>
+            <path d="M140 58l-30-8"/>
+            <path d="M110 50c-6-2-10-8-8-14"/>
+            <path d="M140 58l26 4"/>
+            <path d="M166 62c6 4 14 2 18-4"/>
+            <path d="M120 118l-12 22"/>
+            <path d="M156 118l14 20"/>
+          </svg>
+        </div>
+        <div class="dc-text">
+          <p class="script reveal d1">Dress Code</p>
+          <p class="sub hand reveal d2">Formal</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ITINERARIO ============ -->
+  <section id="itinerario">
+    <div class="wrap">
+      <h2 class="section-title reveal">El gran día</h2>
+      <div class="timeline">
+        <div class="rail"></div>
+
+        <div class="tl-item reveal">
+          <span class="tl-dot"></span>
+          <div class="tl-icon">
+            <svg viewBox="0 0 60 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M30 8v6"/><path d="M27 11h6"/>
+              <path d="M18 54V28l12-10 12 10v26"/>
+              <path d="M14 54h32"/>
+              <path d="M24 54V38h12v16"/>
+              <path d="M20 34h4M36 34h4"/>
+            </svg>
+          </div>
+          <div class="tl-text"><p class="tl-time script">5:00 pm</p><p class="tl-label hand">Ceremonia Religiosa</p></div>
+        </div>
+
+        <div class="tl-item reveal">
+          <span class="tl-dot"></span>
+          <div class="tl-icon">
+            <svg viewBox="0 0 60 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 12c6-4 10 4 16 0s10 4 16 0v34c-6 4-10-4-16 0s-10-4-16 0z"/>
+              <path d="M22 24h16M22 32h16M22 40h10"/>
+            </svg>
+          </div>
+          <div class="tl-text"><p class="tl-time script">6:30 pm</p><p class="tl-label hand">Ceremonia civil</p></div>
+        </div>
+
+        <div class="tl-item reveal">
+          <span class="tl-dot"></span>
+          <div class="tl-icon">
+            <svg viewBox="0 0 60 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10l6 12v28"/>
+              <path d="M14 10h12l-2 6h-8z"/>
+              <path d="M40 8l-5 14v28"/>
+              <path d="M33 6c0 5 4 8 7 8s7-3 7-8"/>
+              <path d="M14 50h12M32 50h14"/>
+            </svg>
+          </div>
+          <div class="tl-text"><p class="tl-time script">7:30 pm</p><p class="tl-label hand">Recepción</p></div>
+        </div>
+
+        <div class="tl-item reveal">
+          <span class="tl-dot"></span>
+          <div class="tl-icon">
+            <svg viewBox="0 0 60 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="30" cy="40" rx="20" ry="8"/>
+              <path d="M14 40c0-4 3-6 3-6h26s3 2 3 6"/>
+              <path d="M22 20l4-10M30 20v-12M38 20l-4-10"/>
+            </svg>
+          </div>
+          <div class="tl-text"><p class="tl-time script">8:00 pm</p><p class="tl-label hand">Cena</p></div>
+        </div>
+
+        <div class="tl-item reveal">
+          <span class="tl-dot"></span>
+          <div class="tl-icon">
+            <svg viewBox="0 0 60 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="20" cy="14" r="6"/>
+              <path d="M20 20v14"/>
+              <path d="M20 24l-10 8"/>
+              <path d="M20 24l12 4"/>
+              <path d="M20 34l-6 16"/>
+              <path d="M20 34l8 16"/>
+              <circle cx="42" cy="18" r="6"/>
+              <path d="M42 24c-8 4-8 16-2 24"/>
+              <path d="M42 28l-10 4"/>
+              <path d="M42 28l10 2"/>
+            </svg>
+          </div>
+          <div class="tl-text"><p class="tl-time script">10:00 pm</p><p class="tl-label hand">Todo mundo a bailar</p></div>
+        </div>
+
+        <div class="tl-item reveal">
+          <span class="tl-dot"></span>
+          <div class="tl-icon">
+            <svg viewBox="0 0 60 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 38c0-8 6-14 14-14h12c8 0 14 6 14 14"/>
+              <path d="M8 38h44v8H8z"/>
+              <circle cx="18" cy="48" r="4"/>
+              <circle cx="42" cy="48" r="4"/>
+              <path d="M50 30l6 4M52 24l6 2"/>
+            </svg>
+          </div>
+          <div class="tl-text"><p class="tl-time script">1:00 am</p><p class="tl-label hand">Felices para siempre</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REGALO ============ -->
+  <section id="regalo">
+    <div class="wrap">
+      <div class="flip-card reveal" data-card style="max-width:320px;">
+        <div class="flip-inner">
+          <div class="flip-face front">
+            <div class="frame-border"></div>
+            <svg class="ribbon" viewBox="0 0 88 50" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M44 22c-10-18-34-18-38-2 4 10 22 10 30 4"/>
+              <path d="M44 22c10-18 34-18 38-2-4 10-22 10-30 4"/>
+              <circle cx="44" cy="20" r="4" fill="var(--ink)"/>
+              <path d="M40 24l-8 22"/><path d="M48 24l8 22"/>
+            </svg>
+            <svg class="ribbon bottom" viewBox="0 0 88 50" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M44 22c-10-18-34-18-38-2 4 10 22 10 30 4"/>
+              <path d="M44 22c10-18 34-18 38-2-4 10-22 10-30 4"/>
+              <circle cx="44" cy="20" r="4" fill="var(--ink)"/>
+              <path d="M40 24l-8 22"/><path d="M48 24l8 22"/>
+            </svg>
+            <p class="card-text" style="padding:0 6px;">Tu presencia es lo más importante.<br>Pero si deseas hacernos un regalo,<br>puedes apoyarnos aquí.</p>
+            <div class="card-cta">
+              <button class="btn flip-trigger"><span class="btn-border"></span><span class="label">Ver</span></button>
+            </div>
+          </div>
+          <div class="flip-face back">
+            <div class="frame-border"></div>
+            <svg class="card-icon" style="width:64px;height:64px;" viewBox="0 0 100 100" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="18" y="30" width="64" height="44" rx="3"/>
+              <path d="M18 32l32 26 32-26"/>
+              <circle cx="50" cy="52" r="4"/>
+            </svg>
+            <p class="card-sub script" style="margin-top:8px;">BBVA</p>
+            <p class="card-text">Danna Sofía Olivas Chávez</p>
+            <p class="card-time script" style="letter-spacing:1px;">5152 3456 7755 0099</p>
+            <div class="card-cta">
+              <a class="btn small" href="#" target="_blank" rel="noopener">
+                <span class="btn-border"></span>
+                <span class="label" style="display:flex;align-items:center;gap:6px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+                  Liverpool
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ASISTENCIA ============ -->
+  <section id="asistencia">
+    <div class="wrap">
+      <h2 class="section-title reveal">Asistencia</h2>
+      <p class="info hand reveal d1">Queremos que te relajes y disfrutes.<br>Por esta ocasión, será un evento solo para adultos.<br>Favor de confirmar antes del 3 de octubre</p>
+
+      <button class="btn reveal d2" id="rsvpToggle"><span class="btn-border"></span><span class="label">Ir a confirmar</span></button>
+
+      <form class="rsvp-form" id="rsvpForm">
+        <div class="field">
+          <label for="rsvpName">Nombre Completo</label>
+          <input type="text" id="rsvpName" name="nombre" autocomplete="name">
+        </div>
+        <div class="field">
+          <label>¿Asistirá?</label>
+          <div class="radios">
+            <label class="radio-opt"><input type="radio" name="asistira" value="si" checked> Sí, asistiré.</label>
+            <label class="radio-opt"><input type="radio" name="asistira" value="no"> No podré asistir.</label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="rsvpMsg">Escríbenos un bonito mensaje</label>
+          <textarea id="rsvpMsg" name="mensaje"></textarea>
+        </div>
+        <div style="text-align:center;">
+          <button type="submit" class="btn"><span class="btn-border"></span><span class="label">Siguiente</span></button>
+        </div>
+      </form>
+      <p class="rsvp-thanks" id="rsvpThanks">¡Gracias por confirmar!<br>Nos vemos muy pronto.</p>
+    </div>
+  </section>
+
+  <!-- ============ GALERIA ============ -->
+  <section id="galeria">
+    <div class="wrap">
+      <div class="polaroids reveal">
+        <div class="polaroid p1"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="#8a8465" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></svg></div></div>
+        <div class="polaroid p2"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="#8a8465" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></svg></div></div>
+        <div class="polaroid p3"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="#8a8465" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></svg></div></div>
+      </div>
+      <p class="gal-note hand reveal d1">Si en nuestra boda tomas fotos,<br>compártelas con nosotros aquí</p>
+      <button class="btn reveal d2" style="margin-top:22px;"><span class="btn-border"></span><span class="label">Subir fotos</span></button>
+    </div>
+  </section>
+
+  <!-- ============ FINAL ============ -->
+  <section id="final">
+    <div class="leaf-decor" style="bottom:-20px; left:-50px; width:220px; height:300px;">
+      <svg viewBox="0 0 200 320"><path d="M20 320C60 280 80 230 70 170c30 10 60 0 80-30-40-10-60-40-60-80-30 20-40 60-30 100-30 0-55 20-65 50 30 0 55 15 65 40-20 10-35 30-40 50z" fill="var(--ink)" opacity=".4"/></svg>
+    </div>
+    <div class="wrap" style="position:relative; z-index:1;">
+      <svg class="glasses reveal" viewBox="0 0 100 100" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M28 10l6 34c1 8 8 12 8 12s7-4 8-12l6-34z"/>
+        <path d="M42 56v22M42 78l-8 6M42 78l8 6"/>
+        <path d="M64 12l5 30c1 7 7 11 7 11s6-4 7-11l5-30z"/>
+        <path d="M76 53v22M76 75l-7 6M76 75l7 6"/>
+        <path d="M36 24c0 0-8 4-14-2"/>
+        <path d="M70 26c0 0-6 4-12-1"/>
+      </svg>
+      <p class="quote script reveal d1" style="font-size:22px;">El amor nos ha hecho fuertes. El amor nos ha hecho felices.<br>El amor nos hará eterno.</p>
+
+      <p class="finalnames reveal d2">Danna Sofía Olivas Chávez<span class="amp">&amp;</span>Daniel Moreira Portela</p>
+    </div>
+  </section>
+
+  <footer>
+    <p class="credit">Hecho con ❤ para esta gran celebración</p>
+    <p>© 2026 Danna &amp; Daniel. Todos los derechos reservados.</p>
+  </footer>
+
+</main>
+
+<button id="musicToggle" aria-label="Reproducir música" aria-pressed="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/>
+  </svg>
+</button>
+<audio id="bgAudio" loop preload="none">
+  <!-- Coloca aquí el src de tu propia pista de música, p.ej. <source src="musica.mp3" type="audio/mpeg"> -->
+</audio>
+
+<script>
+// ---------- Envelope open ----------
+const envelope = document.getElementById('envelope');
+const sealBtn = document.getElementById('sealBtn');
+sealBtn.addEventListener('click', openEnvelope);
+function openEnvelope(){
+  envelope.classList.add('opening');
+  document.body.classList.remove('locked');
+  setTimeout(()=>{
+    envelope.classList.add('opened');
+  }, 260);
+  setTimeout(()=>{
+    envelope.style.display='none';
+  }, 1200);
+}
+
+// ---------- Sticky nav menu ----------
+const burgerBtn = document.getElementById('burgerBtn');
+const navmenu = document.getElementById('navmenu');
+const scrim = document.getElementById('scrim');
+function closeMenu(){
+  burgerBtn.classList.remove('open');
+  burgerBtn.setAttribute('aria-expanded','false');
+  navmenu.classList.remove('open');
+  navmenu.setAttribute('aria-hidden','true');
+  scrim.classList.remove('show');
+}
+burgerBtn.addEventListener('click', ()=>{
+  const isOpen = navmenu.classList.toggle('open');
+  burgerBtn.classList.toggle('open', isOpen);
+  burgerBtn.setAttribute('aria-expanded', String(isOpen));
+  navmenu.setAttribute('aria-hidden', String(!isOpen));
+  scrim.classList.toggle('show', isOpen);
+});
+scrim.addEventListener('click', closeMenu);
+navmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+
+// ---------- Reveal on scroll ----------
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+revealEls.forEach(el=>io.observe(el));
+
+// ---------- Countdown ----------
+const target = new Date('2026-10-10T17:00:00');
+function pad(n){return String(n).padStart(2,'0');}
+function tickCountdown(){
+  const now = new Date();
+  let diff = target - now;
+  if(diff < 0) diff = 0;
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor(diff%86400000/3600000);
+  const m = Math.floor(diff%3600000/60000);
+  const s = Math.floor(diff%60000/1000);
+  document.getElementById('cd-days').textContent = pad(d);
+  document.getElementById('cd-hours').textContent = pad(h);
+  document.getElementById('cd-mins').textContent = pad(m);
+  document.getElementById('cd-secs').textContent = pad(s);
+}
+tickCountdown();
+setInterval(tickCountdown, 1000);
+
+// ---------- Flip cards ----------
+document.querySelectorAll('.flip-trigger').forEach(btn=>{
+  btn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    const card = btn.closest('.flip-card');
+    card.classList.add('flipped');
+  });
+});
+document.querySelectorAll('.flip-card').forEach(card=>{
+  card.addEventListener('click', (e)=>{
+    if(card.classList.contains('flipped') && !e.target.closest('a')){
+      card.classList.remove('flipped');
+    }
+  });
+});
+
+// ---------- RSVP form toggle ----------
+const rsvpToggle = document.getElementById('rsvpToggle');
+const rsvpForm = document.getElementById('rsvpForm');
+const rsvpThanks = document.getElementById('rsvpThanks');
+rsvpToggle.addEventListener('click', ()=>{
+  rsvpForm.classList.toggle('open');
+});
+rsvpForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  rsvpForm.classList.remove('open');
+  rsvpThanks.classList.add('show');
+});
+
+// ---------- Music toggle (decorative; add your own audio src) ----------
+const musicBtn = document.getElementById('musicToggle');
+const bgAudio = document.getElementById('bgAudio');
+musicBtn.addEventListener('click', ()=>{
+  const playing = musicBtn.classList.toggle('playing');
+  musicBtn.setAttribute('aria-pressed', String(playing));
+  if(playing){ bgAudio.play().catch(()=>{}); } else { bgAudio.pause(); }
+});
+</script>
+</body>
+</html>
